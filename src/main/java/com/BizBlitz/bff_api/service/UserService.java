@@ -2,6 +2,7 @@ package com.BizBlitz.bff_api.service;
 
 import com.BizBlitz.bff_api.model.logindto.LoginRequest;
 import com.BizBlitz.bff_api.model.logindto.RegisterRequest;
+import com.BizBlitz.bff_api.model.reviewDto.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -20,6 +21,12 @@ public class UserService {
     @Autowired
     public UserService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
+    }
+
+    public User getUserByUsername(String username) {
+        String url = loginApiBaseUrl + "/api/users/" + username;
+        ResponseEntity<User> response = restTemplate.getForEntity(url, User.class);
+        return response.getBody();
     }
 
     public ResponseEntity<String> registerUser(RegisterRequest registerRequest) {
